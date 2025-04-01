@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #112;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: gold;
+    font-weight: lighter;
+}
+
+p {
+    color: white;
+}
+
+a {
+    color: #e8bf00;
+    transition: color 145ms ease-in;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffff00;
+    text-shadow: 0px 0px 4px #ffff00;
+}
+
+input,
+textarea {
+    border: 1px solid #e8bf00;
+    box-shadow: 0px 0px 8px #e8bf0044;
+    transition: all 205ms ease-in-out;
+}
+
+input::before,
+textarea::before {
+    box-shadow: 0px 0px 6px #139514;
+}
+
+#input_check:checked {
+    box-shadow: 0px 0px 6px #139514;
+    background-color: #e8bf00;
+    color: #e8bf00;
+}
