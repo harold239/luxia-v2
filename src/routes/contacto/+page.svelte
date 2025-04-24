@@ -46,13 +46,13 @@
                         Sociales
                     </h4>
                     <div class="d-flex gap-3">
-                        <a href="/" class="text-dark">
+                        <a href="https://www.facebook.com/share/1F3do9DUX9/?mibextid=wwXIfr" class="text-dark">
                             <i class="fab fa-facebook fa-2x"></i>
                         </a>
-                        <a href="/" class="text-dark">
+                        <a href="https://www.instagram.com/luxia_23.1?igsh=MXdyejQ1YTI0YXJmaA==" class="text-dark">
                             <i class="fab fa-instagram fa-2x"></i>
                         </a>
-                        <a href="/" class="text-dark">
+                        <a href="https://wa.me/573164014591" class="text-dark">
                             <i class="fab fa-whatsapp fa-2x"></i>
                         </a>
                     </div>

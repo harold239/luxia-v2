@@ -28,7 +28,8 @@
     ];
 </script>
 
-<div class="container-fluid bg-dark text-light py-5">
+<!-- Cambiado de bg-dark a hero-section -->
+<div class="container-fluid hero-section text-light py-5">
     <div class="container text-center">
         <h1 class="display-4 mb-4">
             <i class="fas fa-cut me-3"></i>En LUXIA 23 la Tradición Continúa
@@ -176,6 +177,58 @@
 </div>
 
 <style>
+    /* Estilos para la sección con imagen de fondo */
+    .hero-section {
+    background-image: url('$lib/imagenes/portada2.jpg');
+    background-size: cover; /* Mantén 'cover' para que cubra todo el espacio */
+    background-position: center center; /* Centra la imagen horizontal y verticalmente */
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 150px 0; /* Aumentado de 100px a 150px para más altura */
+    min-height: 800px; /* Establece una altura mínima para la sección */
+}
+    
+    /* Overlay oscuro para mejorar la legibilidad del texto */
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Overlay negro semitransparente */
+        z-index: 1;
+    }
+    
+    /* Asegura que el contenido esté por encima del overlay */
+    .hero-section .container {
+        position: relative;
+        z-index: 2;
+    }
+    
+    /* Mejora la legibilidad del texto */
+    .hero-section p {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        font-weight: 400;
+    }
+    
+    .hero-section h1 {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    }
+    
+    /* Estilo para los íconos de características */
+    .hero-section .feature-item {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        border-radius: 10px;
+        width: 120px;
+    }
+    
+    .hero-section .feature-item i {
+        color: #e8bf00; /* Color dorado para los íconos */
+    }
+
+    /* Estilos existentes */
     .feature-item {
         transition: transform 0.3s;
     }

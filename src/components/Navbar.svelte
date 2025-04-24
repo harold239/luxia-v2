@@ -1,12 +1,16 @@
 <script>
     import "$lib/app.css";
+    import logoImg from "../lib/imagenes/logo.jpg";
 </script>
 
 <nav class="navbar navbar-expand-lg bg_nav border-bottom sticky-top w-100">
-    <div class="container-fluid w-100">
-        <div class="text-light fw-bold d-lg-none">
-            <a href="/"> BARBERIA </a>
-        </div>
+    <div class="container-fluid">
+        <!-- Logo a la izquierda -->
+        <a href="/" class="navbar-brand">
+            <img src={logoImg} alt="Logo Barbería" class="navbar-logo" />
+        </a>
+        
+        <!-- Botón hamburguesa para móviles -->
         <button
             class="navbar-toggler bg-white"
             type="button"
@@ -18,32 +22,32 @@
         >
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse w-100" id="navbarNav">
-            <ul
-                class="navbar-nav w-100 d-flex justify-content-evenly align-items-center"
-            >
+        
+        <!-- Menú de navegación alineado a la derecha -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link NavFont" aria-current="page" href="/">
                         INICIO
-                        <i class="fa-solid fa-house"></i>
+                        
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link NavFont" href="/about">
                         ACERCA DE
-                        <i class="fa-solid fa-circle-info"></i>
+                        
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link NavFont" href="/contacto">
                         CONTACTO
-                        <i class="fa-solid fa-address-book"></i>
+                        
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link NavFont" href="/login">
                         INGRESAR
-                        <i class="fa-solid fa-circle-user"></i>
+                        
                     </a>
                 </li>
             </ul>
@@ -55,14 +59,28 @@
     .bg_nav {
         background-color: black;
     }
-
+    
     .NavFont {
         color: #e8bf00;
         transition: color 175ms ease-in;
         font-weight: bold;
+        margin: 0 10px; /* Añade espacio entre los elementos de navegación */
     }
-
+    
     .NavFont:hover {
         color: #ffff00;
+    }
+    
+    /* Estilo para el logo */
+    .navbar-logo {
+        height: 120px;
+        width: auto;
+    }
+    
+    /* Para pantallas pequeñas */
+    @media (max-width: 992px) {
+        .navbar-collapse {
+            text-align: right;
+        }
     }
 </style>
