@@ -1,35 +1,54 @@
 <script>
+    // Primero comprobamos qué imágenes existen realmente en la carpeta
+    import brayanImg from '$lib/imagenes/brayan.jpg';
+    import edisonImg from '$lib/imagenes/edison.jpg';
+    import fernandaImg from '$lib/imagenes/fernanda.jpg'; // Importamos la imagen de Fernanda
+    
+    // Importar la imagen de fondo para la sección hero
+    import portadaImg from '$lib/imagenes/portada2.jpg';
+    
     let trabajadores = [
         {
             id: 1,
             nombre: "Brayan",
             description: "Brayan es un barbero profesional con más de 4 años de experiencia en el oficio. Es el fundador de Luxia 23, donde combina su pasión y habilidad para ofrecer cortes de calidad y un servicio excepcional a sus clientes",
+            imagen: brayanImg
         },
         {
             id: 2,
             nombre: "Edison",
             description: "Edison es un barbero talentoso con 3 años de experiencia, demostrando gran habilidad y dedicación en cada corte, su destreza y compromiso con la calidad lo convierten en un profesional altamente confiable en la barbería Luxia 23.",
+            imagen: edisonImg
         },
         {
             id: 3,
             nombre: "Fernanda",
             description: "Fernanda es una manicurista y peinadora profesional, reconocida por su precisión y creatividad en cada servicio. Con una gran atención al detalle, se especializa en ofrecer manicuras impecables y peinados sofisticados, siempre buscando resaltar la belleza y estilo único de cada cliente.",
-        },
-        {
-            id: 4,
-            nombre: "Personal #4",
-            description: "Descripción",
-        },
-        {
-            id: 5,
-            nombre: "Personal #5",
-            description: "Descripción",
-        },
+            imagen: fernandaImg // Usamos la imagen de Fernanda
+        }
     ];
+
+    // Función para manejar errores
+    function handleImageError(event) {
+        const imgElement = event.target;
+        console.error("Failed to load image:", imgElement.src);
+        
+        imgElement.style.display = 'none';
+        
+        const container = imgElement.parentNode;
+        
+        const bgDiv = document.createElement('div');
+        bgDiv.className = 'bg-light position-absolute w-100 h-100';
+        container.appendChild(bgDiv);
+        
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-user-tie fa-7x text-secondary position-absolute top-50 start-50 translate-middle';
+        container.appendChild(icon);
+    }
 </script>
 
-<!-- Cambiado de bg-dark a hero-section -->
-<div class="container-fluid hero-section text-light py-5">
+<!-- Sección hero con fondo de imagen -->
+<div class="container-fluid hero-section text-light py-5" style="background-image: url({portadaImg});">
     <div class="container text-center">
         <h1 class="display-4 mb-4">
             <i class="fas fa-cut me-3"></i>En LUXIA 23 la Tradición Continúa
@@ -68,33 +87,35 @@
 
     <div class="row g-4 justify-content-center">
         {#each trabajadores as trabajador}
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body text-center">
                         <div
                             class="position-relative overflow-hidden rounded-circle mx-auto mb-3"
                             style="width: 200px; height: 200px;"
                         >
-                            <div
-                                class="bg-light position-absolute w-100 h-100"
-                            ></div>
-                            <i
-                                class="fas fa-user-tie fa-7x text-secondary position-absolute top-50 start-50 translate-middle"
-                            ></i>
+                            <!-- Corregido: Ajustar imagen para que se muestre completa dentro del círculo -->
+                            <img 
+                                src="{trabajador.imagen}" 
+                                alt="{trabajador.nombre}" 
+                                class="w-100 h-100" 
+                                style="object-fit: cover; border-radius: 50%;"
+                                on:error={handleImageError}
+                            />
                         </div>
                         <h5 class="card-title fw-bold">{trabajador.nombre}</h5>
                         <p class="card-text text-muted">
                             {trabajador.description}
                         </p>
                         <div class="social-links">
-                            <a href="/" class="text-dark mx-2">
+                            <a href="https://www.instagram.com/luxia_23.1?igsh=MXdyejQ1YTI0YXJmaA==" class="text-dark mx-2">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="/" class="text-dark mx-2">
+                            <a href="https://www.facebook.com/share/1F3do9DUX9/?mibextid=wwXIfr" class="text-dark mx-2">
                                 <i class="fab fa-facebook"></i>
                             </a>
-                            <a href="/" class="text-dark mx-2">
-                                <i class="fab fa-twitter"></i>
+                            <a href="https://wa.me/573164014591" class="text-dark mx-2">
+                                <i class="fab fa-whatsapp"></i>
                             </a>
                         </div>
                     </div>
@@ -109,7 +130,7 @@
         <div class="col-lg-6">
             <div class="pe-lg-5">
                 <h3 class="mb-4">Nuestra Historia</h3>
-                <p class="text-white">
+                <p>
                     Hace cuatro años, en el corazón de Pupiales, Nariño, nació nuestra barbería con una misión clara: redefinir el cuidado masculino a través de la excelencia, la innovación y la tradición. Lo que comenzó como un sueño se convirtió en un espacio donde cada cliente encuentra no solo un corte impecable, sino una experiencia única de estilo y confianza.Hoy, seguimos creciendo con la misma pasión que nos vio nacer, consolidándonos como un referente en la barbería y el cuidado personal. 💈🔥
                 </p>
                 <img
@@ -177,16 +198,15 @@
 </div>
 
 <style>
-    /* Estilos para la sección con imagen de fondo */
+    /* Estilos para la sección con imagen de fondo - Utilizando variables de Svelte */
     .hero-section {
-    background-image: url('$lib/imagenes/portada2.jpg');
-    background-size: cover; /* Mantén 'cover' para que cubra todo el espacio */
-    background-position: center center; /* Centra la imagen horizontal y verticalmente */
-    background-repeat: no-repeat;
-    position: relative;
-    padding: 150px 0; /* Aumentado de 100px a 150px para más altura */
-    min-height: 800px; /* Establece una altura mínima para la sección */
-}
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        position: relative;
+        padding: 150px 0;
+        min-height: 700px;
+    }
     
     /* Overlay oscuro para mejorar la legibilidad del texto */
     .hero-section::before {
@@ -196,7 +216,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.7); /* Overlay negro semitransparente */
+        background-color: rgba(0, 0, 0, 0.7);
         z-index: 1;
     }
     

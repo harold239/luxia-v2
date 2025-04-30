@@ -34,7 +34,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link NavFont" href="/about">
-                        ACERCA DE
+                        NOSOTROS
                         
                     </a>
                 </li>

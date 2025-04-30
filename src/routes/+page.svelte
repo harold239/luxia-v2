@@ -163,10 +163,10 @@
       <p class="mb-4">
         Déjanos transformar tu estilo con la máxima precisión y detalle. Disfruta de un 20% de cortesía en tu primera visita.
       </p>
-      <button class="btn btn-light btn-lg px-5">
+      <a href="/reservar" class="btn btn-light btn-lg px-5" style="text-decoration: none; display: inline-block;">
         <i class="bi bi-calendar-check me-2"></i>
         Reservar Ahora
-      </button>
+      </a>
     </div>
   </div>
 
