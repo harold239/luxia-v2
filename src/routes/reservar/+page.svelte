@@ -7,12 +7,12 @@
   import { goto } from '$app/navigation';
   import { user, userData } from '$lib/firebase-auth.js';
   
-  // Importar las imágenes directamente
+  
   import edison from '$lib/imagenes/edison.jpg';
   import brayan from '$lib/imagenes/brayan.jpg';
   import fernanda from '$lib/imagenes/fernanda.jpg';
 
-  // Datos para la reserva
+  
   let barbero = '';
   let fecha = '';
   let hora = '';
@@ -20,40 +20,40 @@
   let telefono = '';
   let horasDisponibles = [];
   let errorCargandoHoras = '';
-  let datepickerElement; // Referencia al elemento DOM
+  let datepickerElement; 
   let calendarInitialized = false;
   let reservaEnviada = false;
   let mensajeEstado = '';
   let reservaExitosa = false;
   let reservaConfirmada = null;
-  let diaCompleto = false; // Flag para indicar si el día está completo
-  let flatpickrInstance = null; // Variable para almacenar la instancia de flatpickr
-  let calendarAttempts = 0; // Contador para intentos de inicialización
-  let intentandoInicializarCalendario = false; // Flag para evitar múltiples intentos simultáneos
+  let diaCompleto = false; 
+  let flatpickrInstance = null; 
+  let calendarAttempts = 0; 
+  let intentandoInicializarCalendario = false; 
   
-  // Actualizar estado de autenticación basado en el store de usuario y agregar manejo de estado persistente
-  let usuarioAutenticado = false; // Inicio con valor por defecto
+  
+  let usuarioAutenticado = false; 
   
   // Suscripción al store de usuario
   const unsubscribe = user.subscribe(currentUser => {
     usuarioAutenticado = !!currentUser;
     console.log("Estado de autenticación actualizado:", usuarioAutenticado);
     
-    // Si el usuario está autenticado, intentar cargar los datos del perfil
+    
     if (currentUser && $userData) {
-      // Pre-rellenar los campos con los datos del usuario si están disponibles
+      
       nombre = nombre || $userData.displayName || '';
       telefono = telefono || $userData.phoneNumber || '';
     }
   });
   
-  // Control de pasos
+  
   let pasoActual = 1;
   const totalPasos = 4;
 
-  // Función para manejar errores de carga de imagen
+  
   function handleImageError(event, nombreBarbero) {
-    // Crear una imagen SVG con la inicial del nombre
+    
     const initialLetter = nombreBarbero[0];
     const svgImage = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><rect width='120' height='120' fill='%23E0E0E0'/><text x='50%' y='50%' font-size='36' text-anchor='middle' alignment-baseline='middle' fill='%237F8C8D'>${initialLetter}</text></svg>`;
     
@@ -61,7 +61,7 @@
     console.log(`Error al cargar imagen de ${nombreBarbero}, utilizando placeholder SVG`);
   }
 
-  // Información de los barberos con imágenes importadas
+  
   const barberos = [
     { 
       id: 'Edison', 
@@ -83,7 +83,7 @@
     }
   ];
 
- // Modificar la inicialización de flatpickr para arreglar el problema de cambio de mes
+ 
 function initCalendar() {
   if (intentandoInicializarCalendario) {
     console.log("Ya hay un intento de inicialización en curso, esperando...");
@@ -107,13 +107,13 @@ function initCalendar() {
   console.log("Inicializando calendario...");
   
   try {
-    // Destruir la instancia anterior si existe
+    
     if (flatpickrInstance) {
       flatpickrInstance.destroy();
       flatpickrInstance = null;
     }
     
-    // Crear nueva instancia con prevDefault en onMonthChange y onYearChange
+    
     flatpickrInstance = flatpickr(datepickerElement, {
       dateFormat: 'Y-m-d',
       minDate: 'today',
@@ -128,17 +128,16 @@ function initCalendar() {
       onChange: function(selectedDates, dateStr) {
         fecha = dateStr;
         console.log("Fecha seleccionada:", dateStr);
-        // Limpiar mensajes de error al seleccionar una nueva fecha
+        
         mensajeEstado = '';
         diaCompleto = false;
       },
       onMonthChange: function(selectedDates, dateStr, instance) {
-        // Prevenir el comportamiento predeterminado que podría estar causando el retorno al mes actual
-        // No es necesario hacer nada aquí, solo asegurarse de que el evento esté manejado
+        
         console.log("Mes cambiado a:", instance.currentMonth + 1);
       },
       onYearChange: function(selectedDates, dateStr, instance) {
-        // Similar al cambio de mes
+        
         console.log("Año cambiado a:", instance.currentYear);
       }
     });
@@ -147,7 +146,7 @@ function initCalendar() {
     calendarAttempts = 0;
     console.log("Calendario inicializado correctamente", flatpickrInstance);
     
-    // Si ya hay una fecha seleccionada, establecerla en el calendario
+    
     if (fecha) {
       flatpickrInstance.setDate(fecha, true);
     }
@@ -165,15 +164,14 @@ function initCalendar() {
   }
 }
 
-  // Verificar el estado de autenticación al cargar y cargar datos de la sesión
+  
   onMount(() => {
     console.log("Componente montado");
     
-    // Intentar recuperar datos de sesión o estado guardado
+    
     recuperarEstadoSesion();
     
-    // Establecer un temporizador escalonado para verificar el calendario
-    // con múltiples intentos para asegurar su inicialización
+   
     const intentosInicializacion = [100, 300, 600, 1000, 2000];
     
     intentosInicializacion.forEach((delay, index) => {
@@ -185,9 +183,9 @@ function initCalendar() {
       }, delay);
     });
     
-    // Limpiar suscripción cuando componente se desmonta
+    
     return () => {
-      // Destruir instancia de flatpickr al desmontar para evitar pérdidas de memoria
+      
       if (flatpickrInstance) {
         flatpickrInstance.destroy();
         flatpickrInstance = null;
@@ -196,9 +194,9 @@ function initCalendar() {
     };
   });
   
-  // Función para guardar estado actual en localStorage
+  
   function guardarEstadoSesion() {
-    // Solo guardar estado si hay algún dato
+    
     if (barbero || fecha || hora || nombre || telefono) {
       const estadoGuardar = {
         barbero,
@@ -218,7 +216,7 @@ function initCalendar() {
     }
   }
   
-  // Función para recuperar estado desde localStorage
+  
   function recuperarEstadoSesion() {
     try {
       const estadoGuardado = localStorage.getItem('reservaEnProgreso');
@@ -227,18 +225,18 @@ function initCalendar() {
         const estado = JSON.parse(estadoGuardado);
         console.log("Estado recuperado de sesión:", estado);
         
-        // Restaurar valores
+       
         barbero = estado.barbero || barbero;
         fecha = estado.fecha || fecha;
         hora = estado.hora || hora;
         nombre = estado.nombre || nombre;
         telefono = estado.telefono || telefono;
         
-        // Restaurar paso (pero no avanzar más allá del paso 1 si no hay datos)
+        
         if (estado.pasoActual > 1 && (barbero || fecha)) {
           pasoActual = estado.pasoActual;
           
-          // Si restauramos al paso de horas, cargar las horas
+          
           if (pasoActual === 3 && fecha && barbero) {
             setTimeout(() => cargarHoras(), 500);
           }
@@ -249,9 +247,9 @@ function initCalendar() {
     }
   }
   
-  // Guardar estado cuando cambian datos importantes
+  
   $: {
-    // Este bloque se ejecuta cuando cambian estas variables
+    
     if (barbero || fecha || hora || nombre || telefono) {
       guardarEstadoSesion();
     }
@@ -266,14 +264,14 @@ function initCalendar() {
         console.log(`Cargando horas para ${barbero} en fecha ${fecha}`);
         
         try {
-          // Obtener horas disponibles
+          
           const horasObtenidas = await obtenerHorasDisponibles(fecha, barbero);
           console.log("Horas obtenidas:", horasObtenidas);
           
-          // Verificar si hay mensaje especial
+          
           if (horasObtenidas.length === 0 || 
               (horasObtenidas.length === 1 && horasObtenidas[0].startsWith('No hay horas disponibles'))) {
-            // Marcar que el día está completo
+            
             diaCompleto = true;
             horasDisponibles = [];
             mensajeEstado = 'No hay horas disponibles para este día. Por favor selecciona otra fecha.';
@@ -281,35 +279,35 @@ function initCalendar() {
           }
           
           if (horasObtenidas.length > 0 && horasObtenidas[0].startsWith('ADVERTENCIA')) {
-            // Mostrar alerta pero continuar con las horas disponibles
+            
             errorCargandoHoras = "No se pudieron verificar completamente las horas ocupadas. Algunas horas mostradas podrían no estar disponibles.";
-            // Quitar el mensaje de advertencia
+            
             horasDisponibles = horasObtenidas.slice(1);
           } else {
-            // Verificar si las horas ya están en formato AM/PM
+            
             if (horasObtenidas[0] && (horasObtenidas[0].includes('AM') || horasObtenidas[0].includes('PM'))) {
               horasDisponibles = horasObtenidas;
             } else {
-              // Convertir a formato AM/PM
+              
               horasDisponibles = horasObtenidas.map(hora => {
                 const [horas, minutos] = hora.split(':');
                 let horaNum = parseInt(horas);
                 const periodo = horaNum >= 12 ? 'PM' : 'AM';
                 
-                // Convertir a formato 12h
+                
                 if (horaNum > 12) {
                   horaNum -= 12;
                 } else if (horaNum === 0) {
                   horaNum = 12;
                 }
                 
-                // Devolver en formato AM/PM
+                
                 return `${horaNum}:${minutos} ${periodo}`;
               });
             }
           }
           
-          // Verificar si no hay horas disponibles después de procesar
+          
           if (horasDisponibles.length === 0) {
             diaCompleto = true;
             mensajeEstado = 'No hay horas disponibles para este día. Por favor selecciona otra fecha.';
@@ -340,28 +338,28 @@ function initCalendar() {
       pasoActual++;
       console.log("Avanzando al paso:", pasoActual);
       
-      // Limpiar mensajes de error al avanzar paso
+      
       mensajeEstado = '';
       diaCompleto = false;
       
-      // Si avanzamos al paso de horas y tenemos fecha y barbero, cargar las horas
+      
       if (pasoActual === 3 && fecha && barbero) {
         cargarHoras();
       }
       
-      // Si estamos en el paso 2, programar la inicialización del calendario
+      
       if (pasoActual === 2) {
-        // Reiniciar el estado del calendario
+        
         calendarInitialized = false;
         
-        // Intentar inicializar después de un breve retraso para permitir que se actualice el DOM
+        
         setTimeout(() => {
           calendarAttempts = 0;
           initCalendar();
         }, 200);
       }
       
-      // Guardar estado al avanzar de paso
+      
       guardarEstadoSesion();
     }
   }
@@ -371,27 +369,27 @@ function initCalendar() {
       pasoActual--;
       console.log("Retrocediendo al paso:", pasoActual);
       
-      // Limpiar mensajes de error al retroceder
+      
       mensajeEstado = '';
       diaCompleto = false;
       
-      // Si retrocedemos al paso 2, programar la inicialización del calendario
+      
       if (pasoActual === 2) {
-        // Reiniciar completamente el estado del calendario
+        
         calendarInitialized = false;
         if (flatpickrInstance) {
           flatpickrInstance.destroy();
           flatpickrInstance = null;
         }
         
-        // Intentar inicializar después de un retraso para permitir que se actualice el DOM
+        
         setTimeout(() => {
           calendarAttempts = 0;
           initCalendar();
         }, 300);
       }
       
-      // Guardar estado al retroceder
+      
       guardarEstadoSesion();
     }
   }
@@ -402,19 +400,19 @@ function initCalendar() {
     return true;
   }
 
-  // Función mejorada para convertir correctamente el formato de hora
+  
   function convertirDe_AMPM(horaAMPM) {
     try {
-      // Verificar si la hora ya tiene formato
+      
       if (!horaAMPM || !horaAMPM.includes(' ')) {
-        return horaAMPM; // Devolver sin cambios si no tiene el formato esperado
+        return horaAMPM; 
       }
       
-      // Separar la hora del período (AM/PM)
+      
       const [tiempo, periodo] = horaAMPM.split(' ');
       let [horas, minutos] = tiempo.split(':').map(Number);
       
-      // Conversión a formato 24 horas
+      
       if (periodo === 'PM' && horas < 12) {
         horas += 12;
       } else if (periodo === 'AM' && horas === 12) {
@@ -424,14 +422,14 @@ function initCalendar() {
       return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}`;
     } catch (error) {
       console.error("Error al convertir hora:", error);
-      return horaAMPM; // Devolver la hora original en caso de error
+      return horaAMPM; 
     }
   }
 
   function redirigirALogin() {
-    // Guardar la ruta actual para volver después del login
+    
     sessionStorage.setItem('returnTo', '/reservar');
-    // Guardar también el estado del formulario
+    
     guardarEstadoSesion();
     goto('/login');
   }
@@ -447,31 +445,31 @@ function initCalendar() {
     reservaEnviada = false;
     mensajeEstado = '';
     diaCompleto = false;
-    // Limpiar datos guardados
+    
     localStorage.removeItem('reservaEnProgreso');
   }
 
   async function confirmarReserva() {
     try {
-      // Validar formulario
+      
       if (!barbero || !fecha || !hora || !nombre || !telefono) {
         mensajeEstado = 'Por favor completa todos los campos.';
         return;
       }
       
-      // Verificar autenticación para crear reserva
+      
       if (!usuarioAutenticado) {
         mensajeEstado = 'Necesitas iniciar sesión para confirmar la reserva.';
         console.log("Error: Usuario no autenticado intentando crear reserva");
         
-        // Preguntar al usuario si desea ir al login
+        
         if (confirm('Necesitas iniciar sesión para continuar. ¿Deseas ir a la página de login?')) {
           redirigirALogin();
         }
         return;
       }
       
-      // Preparar datos de la reserva
+      
       const datosReserva = {
         barbero,
         fechaReserva: new Date(`${fecha}T${convertirDe_AMPM(hora)}:00`),
@@ -482,10 +480,10 @@ function initCalendar() {
       
       console.log("Intentando crear reserva con datos:", datosReserva);
       
-      // Marcar como enviada y mostrar mensaje de proceso
+      
       mensajeEstado = 'Enviando reserva...';
       
-      // Intentar crear la reserva
+      
       try {
         const reserva = await crearReserva(datosReserva);
         
@@ -494,7 +492,7 @@ function initCalendar() {
         mensajeEstado = '¡Reserva confirmada con éxito!';
         console.log("Reserva creada exitosamente", reserva);
         
-        // Almacenar datos de confirmación
+        
         reservaConfirmada = {
           nombre,
           telefono,
@@ -503,25 +501,25 @@ function initCalendar() {
           barbero
         };
         
-        // Limpiar datos guardados ya que la reserva fue exitosa
+        
         localStorage.removeItem('reservaEnProgreso');
         
-        // Resetear valores después de un tiempo
+        
         setTimeout(() => {
           resetearFormulario();
         }, 3000);
       } catch (error) {
         console.error("Error al crear reserva en Firebase:", error);
         
-        // Manejo específico según el tipo de error
+        
         if (error.code === 'permission-denied') {
           mensajeEstado = 'No tienes permisos para crear la reserva. Por favor inicia sesión.';
           setTimeout(() => redirigirALogin(), 2000);
         } else if (error.message && error.message.includes('no disponible')) {
-          // La hora ya fue reservada mientras el usuario llenaba el formulario
+          
           mensajeEstado = 'Esta hora ya no está disponible. Por favor selecciona otra hora.';
           pasoActual = 3;
-          // Recargar horas disponibles
+          
           setTimeout(() => cargarHoras(), 1000);
         } else {
           mensajeEstado = `Error: ${error.message || "No se pudo crear la reserva. Intenta de nuevo."}`;
@@ -533,11 +531,11 @@ function initCalendar() {
     }
   }
 
-  // Datos para opciones de calendario sin depender de flatpickr
+  
   const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   const diasSemana = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
   
-  // Calendario simple como alternativa si flatpickr falla
+  
   function generarCalendarioSimple() {
     const hoy = new Date();
     const mesActual = hoy.getMonth();
@@ -549,7 +547,7 @@ function initCalendar() {
     const fechasDisponibles = [];
     for (let i = hoy.getDate(); i <= ultimoDia.getDate(); i++) {
       const fecha = new Date(anioActual, mesActual, i);
-      // Excluir domingos
+      
       if (fecha.getDay() !== 0) {
         fechasDisponibles.push({
           dia: i,
@@ -567,11 +565,11 @@ function initCalendar() {
   
   const datosCalendario = generarCalendarioSimple();
 
-  // Monitorear cualquier cambio en el paso actual para reiniciar el calendario cuando sea necesario
+  
   $: if (pasoActual === 2) {
-    // Esperar a que el DOM se actualice
+    
     setTimeout(() => {
-      // Reiniciar completamente el estado del calendario
+      
       if (flatpickrInstance) {
         flatpickrInstance.destroy();
         flatpickrInstance = null;
@@ -589,7 +587,7 @@ function initCalendar() {
 <div class="contenedor-reserva">
   <h1>Reservar tu Cita</h1>
   
-  <!-- Barra de progreso -->
+  
   <div class="barra-progreso">
     <div class="pasos">
       <div class={`paso ${pasoActual >= 1 ? 'activo' : ''}`}>
@@ -620,7 +618,7 @@ function initCalendar() {
     </div>
   {/if}
 
-  <!-- MODIFICACIÓN: Se eliminó el recuadro de "Sesión iniciada" -->
+  
   {#if !usuarioAutenticado && pasoActual >= 3}
     <div class="mensaje-info">
       <strong>Nota:</strong> Para confirmar tu reserva necesitarás iniciar sesión.
@@ -632,7 +630,7 @@ function initCalendar() {
     </div>
   {/if}
 
-<!-- Paso 1: Selección de barbero con diseño mejorado -->
+
 {#if pasoActual === 1}
   <div class="paso-contenido">
     <h2>Selecciona tu barbero</h2>
@@ -664,7 +662,7 @@ function initCalendar() {
   </div>
 {/if}
 
-  <!-- Paso 2: Selección de fecha con dos opciones (flatpickr o calendario propio) -->
+  
   {#if pasoActual === 2}
     <div class="paso-contenido">
       <h2>Selecciona la fecha</h2>
@@ -678,12 +676,12 @@ function initCalendar() {
           {/if}
         </div>
         
-        <!-- Intentamos usar flatpickr primero -->
+        
         <div class="calendario">
-          <!-- Crear un nuevo elemento para el calendario cada vez -->
+          
           <div bind:this={datepickerElement} id="calendario-flatpickr"></div>
           
-          <!-- Calendario alternativo visible cuando flatpickr no está inicializado -->
+          
           <div class="calendario-simple" style={calendarInitialized ? 'display: none;' : ''}>
             <div class="calendario-encabezado">
               <h3>{datosCalendario.mes} {datosCalendario.anio}</h3>
@@ -699,7 +697,7 @@ function initCalendar() {
                   class={`fecha-dia ${fecha === item.fecha ? 'seleccionada' : ''}`}
                   on:click={() => {
                     fecha = item.fecha;
-                    // Limpiar mensajes cuando se selecciona nueva fecha
+                    
                     mensajeEstado = '';
                     diaCompleto = false;
                   }}
@@ -712,7 +710,7 @@ function initCalendar() {
         </div>
       </div>
       
-      <!-- Mostrar mensaje sobre día completo en el paso 2 también -->
+      
       {#if diaCompleto}
         <div class="mensaje-error">
           No hay horas disponibles para este día. Por favor selecciona otra fecha.
@@ -726,7 +724,7 @@ function initCalendar() {
     </div>
   {/if}
 
-  <!-- Paso 3: Selección de hora -->
+  
   {#if pasoActual === 3}
     <div class="paso-contenido">
       <h2>Selecciona la hora</h2>
@@ -761,7 +759,7 @@ function initCalendar() {
     </div>
   {/if}
 
-  <!-- Paso 4: Datos personales -->
+  
   {#if pasoActual === 4}
     <div class="paso-contenido">
       <h2>Tus datos personales</h2>
@@ -796,7 +794,7 @@ function initCalendar() {
     </div>
   {/if}
   
-  <!-- Confirmación de reserva exitosa -->
+  
   {#if reservaExitosa && reservaConfirmada}
     <div class="confirmacion-reserva">
       <h2>¡Reserva Confirmada!</h2>
@@ -836,7 +834,7 @@ function initCalendar() {
     margin-bottom: 20px;
   }
 
-  /* Estilos para la barra de progreso */
+  
   .barra-progreso {
     margin-bottom: 40px;
   }
@@ -897,7 +895,7 @@ function initCalendar() {
     transition: width 0.3s ease;
   }
 
-  /* Mensaje de estado */
+  
   .mensaje-estado {
     background-color: #f8f9fa;
     border-left: 4px solid #3498db;
@@ -922,7 +920,7 @@ function initCalendar() {
     border-radius: 4px;
   }
 
-  /* Estilos para el botón de login */
+  
   .acciones-login {
     text-align: center;
     margin: 10px 0;
@@ -950,12 +948,12 @@ function initCalendar() {
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Estilos para los pasos */
+  
   .paso-contenido {
     min-height: 300px;
   }
 
-  /* Estilos para la selección de barberos */
+  
   .grid-barberos {
     display: grid;
     grid-template-columns: repeat(3, minmax(250px, 1fr));
@@ -1067,7 +1065,7 @@ function initCalendar() {
     }
   }
 
-  /* Asegurarse de que los estilos funcionen bien en modo oscuro */
+  
   @media (prefers-color-scheme: dark) {
     .tarjeta-barbero {
       background-color: rgba(255, 255, 255, 0.05);
@@ -1082,7 +1080,7 @@ function initCalendar() {
     }
   }
 
-  /* Ajustes para responsividad */
+  
   @media (max-width: 768px) {
     .grid-barberos {
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1106,7 +1104,7 @@ function initCalendar() {
     }
   }
 
-  /* Estilos para el calendario simple */
+  
 .calendario-simple {
   border: 1px solid #e0b05f;
   border-radius: 15px;
@@ -1213,7 +1211,7 @@ function initCalendar() {
   opacity: 0.5;
 }
 
-/* Estilos para el calendario */
+
 .calendario-contenedor {
   margin: 20px auto;
   border: 1px solid #e0b05f;
@@ -1240,7 +1238,7 @@ function initCalendar() {
   max-width: 400px;
 }
 
-/* Personalización de estilos para flatpickr */
+
 :global(.flatpickr-day.selected) {
   background-color: #e0b05f !important;
   border-color: #e0b05f !important;
@@ -1320,7 +1318,7 @@ function initCalendar() {
   font-size: 13px !important;
 }
 
-/* Hacer que el calendario de flatpickr sea más visible con más espacio */
+
 :global(.flatpickr-calendar) {
   width: 100% !important;
   max-width: 400px;
@@ -1343,7 +1341,7 @@ function initCalendar() {
   width: 36px !important;
 }
 
-/* Asegurar que los días de la semana estén correctamente alineados */
+
 :global(.flatpickr-weekdays) {
   background-color: #111126 !important;
   display: flex !important;
@@ -1351,13 +1349,13 @@ function initCalendar() {
   padding: 5px 0 !important;
 }
 
-/* Corrección para el primer día de la semana (asegurar que empiece en domingo) */
+
 :global(.flatpickr-calendar) {
-  /* Esto establece el primer día como domingo (0) */
+  
   --first-day-of-week: 0; 
 }
 
-/* Ajuste para el tamaño general del calendario */
+
 :global(.dayContainer) {
   width: 100% !important;
   min-width: 100% !important;
@@ -1367,7 +1365,7 @@ function initCalendar() {
   justify-items: center !important;
 }
 
-/* Asegurar que la selección del mes/año funcione correctamente */
+
 :global(.flatpickr-current-month select.flatpickr-monthDropdown-months) {
   background-color: #111126 !important;
   border: 1px solid #333 !important;
@@ -1410,7 +1408,7 @@ function initCalendar() {
   border-top: 1px solid #333 !important;
 }
 
-/* Estilos para el calendario responsivo */
+
 @media (max-width: 480px) {
   .calendario-simple {
     max-width: 100%;
@@ -1442,7 +1440,7 @@ function initCalendar() {
   }
 }
 
-/* Asegurar que todos los días sean visibles */
+
 :global(.flatpickr-innerContainer) {
   display: block !important;
   min-height: 260px !important;
@@ -1456,16 +1454,16 @@ function initCalendar() {
   width: 100% !important;
 }
 
-/* Estilos adicionales para asegurar que el primer día de la semana sea domingo */
+
 :global(.flatpickr-weeks) {
   margin-left: 0 !important;
 }
 
-  /* Estilos para la selección de hora - MODIFICADO para mejor visualización */
+  
  .grid-horas {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6 columnas en la primera fila */
-  grid-template-rows: repeat(2, auto); /* 2 filas */
+  grid-template-columns: repeat(6, 1fr); 
+  grid-template-rows: repeat(2, auto); 
   gap: 15px;
   margin: 40px auto;
   max-width: 900px;
@@ -1502,7 +1500,7 @@ function initCalendar() {
   transform: translateY(-3px);
 }
 
-/* Versión para móviles */
+
 @media (max-width: 767px) {
   .grid-horas {
     grid-template-columns: repeat(3, 1fr);
@@ -1510,7 +1508,7 @@ function initCalendar() {
   }
 }
 
-  /* Estilos generales */
+  
 :root {
   --color-primario: #d4af37;
   --color-secundario: #2c3e50;
@@ -1527,7 +1525,7 @@ body {
   line-height: 1.6;
 }
 
-/* Estilos para el formulario de reserva */
+
 .formulario-reserva {
   max-width: 800px;
   margin: 0 auto;
@@ -1577,7 +1575,7 @@ body {
   font-weight: 600;
 }
 
-/* Estilos para los campos de formulario */
+
 .campo-formulario {
   margin-bottom: 25px;
 }
@@ -1611,7 +1609,7 @@ body {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Estilos para el resumen de la reserva */
+
 .resumen-reserva {
   background-color: rgba(248, 249, 250, 0.08);
   border-radius: var(--border-radius);
@@ -1648,7 +1646,7 @@ body {
   color: var(--color-primario);
 }
 
-/* Estilos para los botones */
+
 .botones-navegacion {
   display: flex;
   justify-content: space-between;
@@ -1684,7 +1682,7 @@ body {
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .pasos-reserva {
     flex-wrap: wrap;
@@ -1704,7 +1702,7 @@ body {
   }
 }
 
-  /* Estilos para los botones de navegación */
+  
   .botones-navegacion {
     display: flex;
     justify-content: space-between;
@@ -1746,7 +1744,7 @@ body {
     background-color: #f5f5f5;
   }
 
-  /* Otros estilos */
+  
   .error-mensaje {
     color: #e74c3c;
     text-align: center;
@@ -1763,19 +1761,19 @@ body {
 :global(.flatpickr-months .flatpickr-next-month) {
   padding: 10px !important;
   height: auto !important;
-  position: static !important;  /* Evitar posición absoluta */
+  position: static !important;  
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  z-index: 10 !important;  /* Asegurar que estén encima */
+  z-index: 10 !important;  
 }
 
-/* Contenedor principal para centrar todo en la página */
+
 .paso-contenido {
   display: flex;
   flex-direction: column;
-  align-items: center;  /* Centrar horizontalmente */
+  align-items: center;  
   min-height: 300px;
   width: 100%;
 }

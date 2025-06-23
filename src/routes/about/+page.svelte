@@ -51,7 +51,7 @@
 <div class="container-fluid hero-section text-light py-5" style="background-image: url({portadaImg});">
     <div class="container text-center">
         <h1 class="display-4 mb-4">
-            <i class="fas fa-cut me-3"></i>En LUXIA 23 la Tradición Continúa
+           EN LUXIA 23 LA TRADICION CONTINUA
         </h1>
         <p class="lead mb-4">Más de 20 años creando estilos únicos</p>
         <div class="row g-4 justify-content-center">
@@ -133,10 +133,7 @@
                 <p>
                     Hace cuatro años, en el corazón de Pupiales, Nariño, nació nuestra barbería con una misión clara: redefinir el cuidado masculino a través de la excelencia, la innovación y la tradición. Lo que comenzó como un sueño se convirtió en un espacio donde cada cliente encuentra no solo un corte impecable, sino una experiencia única de estilo y confianza.Hoy, seguimos creciendo con la misma pasión que nos vio nacer, consolidándonos como un referente en la barbería y el cuidado personal. 💈🔥
                 </p>
-                <img
-                    src="https://via.placeholder.com/500x300"
-                    alt="Historia"
-                    class="img-fluid rounded shadow"
+                
                 />
             </div>
         </div>
@@ -188,10 +185,10 @@
     </div>
 </div>
 
-<div class="bg-light py-5">
+<div class="bg-dark py-5">
     <div class="container text-center">
-        <h3 class="mb-4">¿Listo para tu nueva experiencia?</h3>
-        <a href="/" class="btn btn-primary btn-lg px-5">
+        <h3 class="mb-4 text-light">¿Listo para tu nueva experiencia?</h3>
+        <a href="/reservar" class="btn btn-primary btn-lg px-5">
             <i class="fas fa-calendar-check me-2"></i>Reserva tu Cita
         </a>
     </div>

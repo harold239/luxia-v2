@@ -137,7 +137,7 @@
 <div class="container-fluid bg-dark text-light py-5">
   <div class="container text-center">
     <h1 class="display-4 mb-4">
-      <i class="fas fa-sign-in-alt me-3"></i>Iniciar sesión
+      Iniciar sesión
     </h1>
     <p class="lead">Accede a tu cuenta para continuar</p>
   </div>

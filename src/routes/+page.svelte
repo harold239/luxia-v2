@@ -3,10 +3,10 @@
   import fotoBrayan from '$lib/imagenes/brayan.jpg';
   import fotoEdison from '$lib/imagenes/edison.jpg';
 </script>
-<!-- Eliminamos el container-fluid inicial para que ocupe todo el ancho -->
+
 <div class="portada-hero"
      style="background-image: url({portada}); background-size: cover; background-position: center; background-repeat: no-repeat;">
-  <div class="overlay"></div> <!-- Capa semitransparente para oscurecer el fondo -->
+  <div class="overlay"></div> 
   <div class="hero-content">
     <div class="the-barber">The</div>
     <h1 class="hero-text display-4 fw-bold mb-3">
@@ -140,11 +140,11 @@
     </div>
   </div>
 
-  <!-- Sección de CTA con video de YouTube como fondo -->
+  
   <div class="cta-section position-relative overflow-hidden rounded-3 mb-5">
-    <!-- Contenedor del video de YouTube -->
+    
     <div class="youtube-container">
-      <!-- URL de YouTube corregida para funcionar como embed -->
+      
       <iframe 
         class="youtube-video" 
         src="https://www.youtube.com/embed/hgmltZKxb3o?autoplay=1&mute=1&loop=1&playlist=hgmltZKxb3o&controls=0&showinfo=0&rel=0"
@@ -154,10 +154,10 @@
       </iframe>
     </div>
     
-    <!-- Overlay para oscurecer el video y mejorar la legibilidad del texto -->
+   
     <div class="cta-overlay"></div>
     
-    <!-- Contenido sobre el video -->
+    
     <div class="cta-content text-center p-5 text-white">
       <h2 class="mb-4">¡ELEVA TU ESTILO!</h2>
       <p class="mb-4">
@@ -194,7 +194,7 @@
 </div>
 
 <style>
-  /* Reset de márgenes para asegurar que llegue hasta el borde */
+  
   body, html {
     margin: 0;
     padding: 0;
@@ -224,7 +224,7 @@
     padding-left: 1rem;
   }
   
-  /* Estilos para hero a pantalla completa */
+  
   .portada-hero {
     width: 100vw;
     height: 100vh;
@@ -234,21 +234,21 @@
     justify-content: center;
     margin: 0;
     padding: 0;
-    /* Posicionamiento para asegurar que está en la parte superior */
+    
     position: relative;
     top: 0;
     left: 0;
     right: 0;
   }
   
-  /* Capa semitransparente para oscurecer el fondo */
+  
   .overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Negro con 60% de opacidad */
+    background-color: rgba(0, 0, 0, 0.6); 
     z-index: 1;
   }
   
@@ -262,7 +262,7 @@
     align-items: center;
     text-align: center;
     position: relative;
-    z-index: 2; /* Asegura que el contenido esté por encima del overlay */
+    z-index: 2; 
   }
   
   .hero-description {
@@ -292,16 +292,16 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   }
   
-  /* Estilos para las tarjetas de servicio con imagen de fondo */
+  
   .service-bg {
     background-size: cover;
     background-position: center;
     border: none;
     overflow: hidden;
-    min-height: 350px; /* Altura mínima para las tarjetas */
+    min-height: 350px; 
   }
   
-  /* Imágenes de fondo para los servicios - REEMPLAZA ESTAS URLs CON TUS PROPIAS IMÁGENES */
+  
   .classic-cut {
     background-image: url('$lib/imagenes/corte.jpg');
   }
@@ -326,7 +326,7 @@
   
   .card-body {
     z-index: 2;
-    padding: 2rem; /* Aumentar el padding para hacer las tarjetas más grandes */
+    padding: 2rem; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -337,21 +337,21 @@
   }
   
   .card-title {
-    font-size: 1.5rem; /* Título más grande */
+    font-size: 1.5rem; 
     font-weight: bold;
   }
   
   .card-text {
-    font-size: 1.1rem; /* Texto más grande */
+    font-size: 1.1rem; 
     margin-bottom: 1.5rem;
   }
   
   .badge {
-    font-size: 0.9rem; /* Badges más grandes */
+    font-size: 0.9rem; 
     padding: 0.5rem 1rem;
   }
   
-  /* Estilo para las fotos de los barberos */
+  
   .barbero-img {
     width: 100px;
     height: 100px;
@@ -361,7 +361,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
-  /* Estilos para la sección CTA con video de YouTube como fondo */
+  
   .cta-section {
     position: relative;
     min-height: 700px;
@@ -377,7 +377,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Evita interacciones con el video */
+    pointer-events: none; 
     overflow: hidden;
   }
   
@@ -397,7 +397,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Overlay más oscuro para compensar el video */
+    background-color: rgba(0, 0, 0, 0.7); 
     z-index: 1;
   }
   

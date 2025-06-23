@@ -60,9 +60,7 @@
 <!-- Página principal de contacto -->
 <div class="container-fluid bg-dark text-light py-5">
     <div class="container text-center">
-        <h1 class="display-4 mb-4">
-            <i class="fas fa-envelope-open-text me-3"></i>Contáctanos
-        </h1>
+        <h1 class="display-4 mb-4">Contáctanos</h1>
         <p class="lead">Estamos aquí para responder tus preguntas</p>
     </div>
 </div>
