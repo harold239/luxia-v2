@@ -3,6 +3,17 @@
   import { onMount } from 'svelte';
   import logoImg from '../lib/imagenes/ia.png';
   
+  // Configuración de enlaces externos
+  const externalLinks = {
+    whatsapp: {
+      number: "+573164014591", // Número de WhatsApp
+      message: "Hola, me interesa información sobre los servicios de LUXIA 23"
+    },
+    reservas: {
+      url: "/reservar" // ✅ Ruta interna corregida
+    }
+  };
+  
   // Base de conocimiento expandida con IA inteligente
   const knowledgeBase = {
     // Información específica de la barbería
@@ -326,6 +337,25 @@
   let aiSystem = new SmartAISystem();
   let conversationHistory = [];
   
+  // Funciones para enlaces externos
+  function openWhatsApp() {
+    const message = encodeURIComponent(externalLinks.whatsapp.message);
+    const whatsappUrl = `https://wa.me/${externalLinks.whatsapp.number.replace(/\D/g, '')}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  }
+  
+  // ✅ Función corregida para navegación interna
+  function openReservas() {
+    // Opción 1: Cierra el chat y navega con transición suave
+    isOpen = false;
+    setTimeout(() => {
+      window.location.href = externalLinks.reservas.url;
+    }, 300);
+    
+    // Opción 2: Si prefieres navegación inmediata, usa solo esta línea:
+    // window.location.href = externalLinks.reservas.url;
+  }
+  
   function getCurrentTime() {
     const now = new Date();
     return now.toLocaleTimeString('es-ES', { 
@@ -463,6 +493,23 @@
         </div>
       </div>
       
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="action-btn whatsapp-btn" on:click={openWhatsApp}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.051 3.488"/>
+          </svg>
+          <span>WhatsApp</span>
+        </button>
+        
+        <button class="action-btn reservas-btn" on:click={openReservas}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+          </svg>
+          <span>Reservar</span>
+        </button>
+      </div>
+      
       <!-- Messages -->
       <div class="chat-messages" bind:this={messagesContainer}>
         {#each messages as message (message.id)}
@@ -518,7 +565,7 @@
       
       <!-- Footer info -->
       <div class="chat-footer">
-        <span>IA Inteligente • Responde a cualquier pregunta</span>
+        <span>La IA • Solo responde a cualquier pregunta relacionada con la barberia</span>
       </div>
     </div>
   {/if}
@@ -571,7 +618,7 @@
     bottom: 80px;
     right: 0;
     width: 380px;
-    height: 550px;
+    height: 580px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -633,6 +680,187 @@
     display: flex;
     align-items: center;
     gap: 4px;
+  }
+
+  /* Estilos mejorados para los botones de acción */
+  .action-buttons {
+    padding: 12px 15px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    animation: slideInFromTop 0.5s ease-out;
+  }
+
+  .action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    min-height: 44px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Efecto de ondas en hover */
+  .action-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+  }
+
+  .action-btn:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* Botón de WhatsApp */
+  .whatsapp-btn {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    border: 2px solid transparent;
+    animation: pulse 2s infinite;
+  }
+
+  .whatsapp-btn:hover {
+    background: linear-gradient(135deg, #128C7E, #075E54);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  }
+
+  .whatsapp-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+  }
+
+  /* Botón de Reservas */
+  .reservas-btn {
+    background: linear-gradient(135deg, #20b2aa, #17a2b8);
+    color: white;
+    border: 2px solid transparent;
+  }
+
+  .reservas-btn:hover {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(32, 178, 170, 0.4);
+  }
+
+  .reservas-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(32, 178, 170, 0.3);
+  }
+
+  /* Iconos de los botones */
+  .action-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .action-btn:hover svg {
+    transform: scale(1.1);
+  }
+
+  /* Texto de los botones */
+  .action-btn span {
+    position: relative;
+    z-index: 1;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* Efecto de pulso para llamar la atención */
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 0 10px rgba(37, 211, 102, 0);
+    }
+    100% {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+  }
+
+  /* Estados de focus para accesibilidad */
+  .action-btn:focus {
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(59, 130, 246, 0.5);
+  }
+
+  /* Estados deshabilitados */
+  .action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  .action-btn:disabled:hover {
+    background: #6c757d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Efectos de carga */
+  .action-btn.loading {
+    position: relative;
+    color: transparent;
+  }
+
+  .action-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    animation: spin 1s linear infinite;
+    z-index: 2;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   .chat-messages {
@@ -752,6 +980,7 @@
     color: white;
     transform: translateY(-1px);
   }
+
   .chat-input {
     padding: 15px;
     background: white;
@@ -792,6 +1021,15 @@
     background: #1a9690;
     transform: scale(1.05);
   }
+
+  .chat-footer {
+    padding: 8px 15px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+    font-size: 11px;
+    color: #6c757d;
+  }
   
   /* Responsive */
   @media (max-width: 768px) {
@@ -803,6 +1041,33 @@
     .chat-widget {
       bottom: 15px;
       right: 15px;
+    }
+
+    .action-buttons {
+      padding: 10px 12px;
+      gap: 8px;
+    }
+    
+    .action-btn {
+      padding: 10px 12px;
+      font-size: 12px;
+      min-height: 40px;
+    }
+    
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .action-buttons {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .action-btn {
+      min-height: 36px;
     }
   }
 </style>

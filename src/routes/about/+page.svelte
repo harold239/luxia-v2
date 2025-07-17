@@ -168,17 +168,16 @@
                     </div>
                 </div>
 
-                <div class="d-flex">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-check-circle text-primary fa-2x me-3"
-                        ></i>
-                    </div>
-                    <div>
-                        <h5>Ambiente Exclusivo</h5>
-                        <p class="text-muted mb-0">
-                            Diseño vintage con comodidades modernas
-                        </p>
-                    </div>
+                <div class="d-flex mb-4">
+                     <div class="flex-shrink-0">
+                         <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
+                     </div>
+                     <div>
+                         <h5>Ambiente Exclusivo</h5>
+                         <p class="text-muted mb-0">
+                             Disfruta de un espacio único y sofisticado diseñado para tu comodidad
+                         </p>
+                     </div>
                 </div>
             </div>
         </div>
@@ -195,78 +194,490 @@
 </div>
 
 <style>
-    /* Estilos para la sección con imagen de fondo - Utilizando variables de Svelte */
+   .hero-section {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 150px 0;
+    min-height: 700px;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section p {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    font-weight: 400;
+}
+
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.hero-section .feature-item {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    width: 120px;
+}
+
+.hero-section .feature-item i {
+    color: #e8bf00;
+}
+
+/* CORRECCIÓN PARA LA SECCIÓN "¿POR QUÉ ELEGIRNOS?" */
+/* Estilos base para los elementos flex */
+.d-flex.mb-4 {
+    display: flex !important;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+    overflow: visible !important;
+    min-height: auto;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+}
+
+.d-flex.mb-4 .flex-shrink-0 {
+    flex-shrink: 0;
+    margin-right: 0;
+    width: 40px;
+    min-width: 40px;
+    flex-basis: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d-flex.mb-4 .flex-grow-1 {
+    flex-grow: 1;
+    min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.d-flex.mb-4 .flex-shrink-0 i {
+    color: #28a745 !important; /* Verde para el check */
+    font-size: 1.5rem;
+    display: block;
+    width: 100%;
+    text-align: center;
+    line-height: 1;
+    margin: 0;
+}
+
+/* Texto en blanco y legible */
+.d-flex.mb-4 h5 {
+    color: #ffffff !important;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    word-wrap: break-word;
+}
+
+.d-flex.mb-4 p {
+    color: #e9ecef !important; /* Blanco suave para mejor legibilidad */
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+    word-wrap: break-word;
+}
+
+/* Corrección específica para contenedores con altura fija */
+.col-lg-6,
+.container-fluid .col-lg-6 {
+    overflow: visible !important;
+    min-height: auto !important;
+}
+
+/* Asegurar que no haya cortes en el contenido */
+.row {
+    overflow: visible !important;
+}
+
+.container,
+.container-fluid {
+    overflow: visible !important;
+}
+
+/* Asegurar que el contenedor padre tenga suficiente espacio */
+.col-lg-6 {
+    padding: 1rem;
+}
+
+/* Mejorar el título de la sección */
+.col-lg-6 h3 {
+    color: #ffffff !important;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Si tienes una sección con fondo oscuro, asegurar que sea visible */
+.bg-dark .col-lg-6 h3,
+.bg-dark .d-flex.mb-4 h5 {
+    color: #ffffff !important;
+}
+
+.bg-dark .d-flex.mb-4 p {
+    color: #e9ecef !important;
+}
+
+/* MEDIA QUERIES RESPONSIVAS */
+
+/* Tablets */
+@media (max-width: 768px) {
     .hero-section {
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-        position: relative;
-        padding: 150px 0;
-        min-height: 700px;
-    }
-    
-    /* Overlay oscuro para mejorar la legibilidad del texto */
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1;
-    }
-    
-    /* Asegura que el contenido esté por encima del overlay */
-    .hero-section .container {
-        position: relative;
-        z-index: 2;
-    }
-    
-    /* Mejora la legibilidad del texto */
-    .hero-section p {
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-        font-weight: 400;
+        padding: 100px 0;
+        min-height: 500px;
     }
     
     .hero-section h1 {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+        font-size: 2rem !important;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
     }
     
-    /* Estilo para los íconos de características */
+    .hero-section .lead {
+        font-size: 1.1rem;
+    }
+    
+    .hero-section p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        text-align: justify;
+    }
+    
     .hero-section .feature-item {
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 15px;
-        border-radius: 10px;
-        width: 120px;
+        width: 100px;
+        padding: 12px;
+        margin-bottom: 1rem;
     }
     
     .hero-section .feature-item i {
-        color: #e8bf00; /* Color dorado para los íconos */
+        font-size: 1.5rem !important;
     }
+    
+    .hero-section .feature-item p {
+        font-size: 0.85rem;
+        margin: 0;
+    }
+    
+    .d-flex.justify-content-center.gap-4 {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem !important;
+    }
+    
+    /* Ajustes para las tarjetas de trabajadores */
+    .card-body .position-relative {
+        width: 150px !important;
+        height: 150px !important;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+    }
+    
+    .card-text {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    /* Correcciones para "¿Por qué elegirnos?" en tablets */
+    .d-flex.mb-4 {
+        padding: 0 0.5rem;
+        margin-bottom: 1.25rem;
+        overflow: visible !important;
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+    }
+    
+    .d-flex.mb-4 .flex-shrink-0 {
+        margin-right: 0;
+        min-width: 35px;
+        width: 35px;
+        flex-basis: 35px;
+    }
+    
+    .d-flex.mb-4 .flex-shrink-0 i {
+        font-size: 1.3rem;
+    }
+    
+    .d-flex.mb-4 .flex-grow-1 {
+        flex-grow: 1;
+        min-width: 0;
+    }
+    
+    .d-flex.mb-4 .flex-shrink-0 i {
+        font-size: 1.5rem;
+        width: 35px;
+    }
+    
+    .d-flex.mb-4 h5 {
+        font-size: 1.1rem;
+    }
+    
+    .d-flex.mb-4 p {
+        font-size: 0.9rem;
+    }
+    
+    .col-lg-6 {
+        padding: 0.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .col-lg-6 h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+}
 
-    /* Estilos existentes */
-    .feature-item {
-        transition: transform 0.3s;
+/* Móviles */
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 80px 0;
+        min-height: 400px;
     }
-    .feature-item:hover {
-        transform: translateY(-5px);
+    
+    .hero-section h1 {
+        font-size: 1.5rem !important;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        padding: 0 1rem;
     }
-    .card {
-        transition:
-            transform 0.3s,
-            box-shadow 0.3s;
+    
+    .hero-section .lead {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
     }
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+    
+    .hero-section p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        padding: 0 0.5rem;
+        text-align: left;
     }
+    
+    .hero-section .feature-item {
+        width: 80px;
+        padding: 10px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-section .feature-item i {
+        font-size: 1.2rem !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-section .feature-item p {
+        font-size: 0.75rem;
+        margin: 0;
+    }
+    
+    /* Tarjetas de trabajadores en móvil */
+    .card-body .position-relative {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .card-text {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+    
     .social-links a {
-        opacity: 0.7;
-        transition: opacity 0.3s;
+        font-size: 1.2rem;
+        margin: 0 0.5rem;
     }
-    .social-links a:hover {
-        opacity: 1;
-        text-decoration: none;
+    
+    /* Sección "¿Por qué elegirnos?" en móviles */
+    .d-flex.mb-4 {
+        flex-direction: row; /* Mantener horizontal */
+        align-items: flex-start;
+        text-align: left;
+        padding: 0 0.25rem;
+        margin-bottom: 1rem;
+        overflow: visible !important;
+        flex-wrap: nowrap;
+        width: 100%;
+        gap: 0.4rem;
     }
+    
+    .d-flex.mb-4 .flex-shrink-0 {
+        margin-right: 0;
+        margin-bottom: 0;
+        min-width: 30px;
+        width: 30px;
+        flex-basis: 30px;
+    }
+    
+    .d-flex.mb-4 .flex-shrink-0 i {
+        font-size: 1.1rem;
+    }
+    
+    .d-flex.mb-4 .flex-grow-1 {
+        flex-grow: 1;
+        min-width: 0;
+        width: calc(100% - 35px);
+    }
+    
+    .d-flex.mb-4 .flex-shrink-0 i {
+        font-size: 1.3rem;
+        width: 30px;
+    }
+    
+    .d-flex.mb-4 h5 {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .d-flex.mb-4 p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 320px) {
+    .hero-section {
+        padding: 60px 0;
+        min-height: 350px;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.3rem !important;
+        padding: 0 0.5rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 0.9rem;
+    }
+    
+    .hero-section p {
+        font-size: 0.8rem;
+        padding: 0 0.25rem;
+    }
+    
+    .hero-section .feature-item {
+        width: 70px;
+        padding: 8px;
+    }
+    
+    .hero-section .feature-item i {
+        font-size: 1rem !important;
+    }
+    
+    .hero-section .feature-item p {
+        font-size: 0.7rem;
+    }
+    
+    .card-body .position-relative {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+    }
+    
+    .card-text {
+        font-size: 0.75rem;
+    }
+    
+    /* Correcciones para "¿Por qué elegirnos?" en móviles muy pequeños */
+    .d-flex.mb-4 .flex-shrink-0 {
+        min-width: 25px;
+        width: 25px;
+        flex-basis: 25px;
+    }
+    
+    .d-flex.mb-4 .flex-shrink-0 i {
+        font-size: 1rem;
+    }
+    
+    .d-flex.mb-4 h5 {
+        font-size: 0.95rem;
+    }
+    
+    .d-flex.mb-4 p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Mejoras adicionales para la responsividad */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .row.g-4 {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: 1rem;
+    }
+    
+    .row.g-5 {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 1.5rem;
+    }
+    
+    .pe-lg-5, .ps-lg-5 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .col-lg-6 p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        text-align: justify;
+    }
+}
+
+/* Estilos existentes que se mantienen */
+.feature-item {
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.social-links a {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.social-links a:hover {
+    opacity: 1;
+    text-decoration: none;
+}
 </style>

@@ -406,4 +406,104 @@
     z-index: 2;
     width: 100%;
   }
+
+  @media (max-width: 768px) {
+  .hero-text {
+    font-size: 2.5rem !important;
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+  
+  .hero-description {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+  
+  .the-barber {
+    font-size: 1rem;
+    letter-spacing: 3px;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+  }
+  
+  .hero-content {
+    padding: 1rem;
+  }
+  
+  .cta-section {
+    min-height: 500px;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  .hero-text {
+    font-size: 2rem !important;
+    letter-spacing: 0px;
+    line-height: 1;
+    word-break: break-word;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+    line-height: 1.5;
+  }
+  
+  .the-barber {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+  }
+  
+  .subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  
+  .hero-content {
+    padding: 0.5rem;
+    width: 95%;
+  }
+  
+  .portada-hero {
+    padding: 0 10px;
+  }
+  
+  .cta-section {
+    min-height: 400px;
+  }
+  
+  .cta-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .btn-lg {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 320px) {
+  .hero-text {
+    font-size: 1.8rem !important;
+    letter-spacing: 0px;
+  }
+  
+  .hero-description {
+    font-size: 0.9rem;
+  }
+  
+  .the-barber {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  
+  .subtitle {
+    font-size: 0.7rem;
+  }
+}
 </style>

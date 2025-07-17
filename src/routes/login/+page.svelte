@@ -1,10 +1,15 @@
 <script>
-  // Importamos auth, signInWithEmailAndPassword y createOrUpdateUser desde tu archivo personalizado
-  import { auth, signInWithEmailAndPassword, createOrUpdateUser } from '$lib/firebase-auth.js';
+  // IMPORTACIONES MEJORADAS - usando lo que ya tienes en firebase-auth.js
+  import { 
+    auth, 
+    signInWithEmailAndPassword, 
+    createOrUpdateUser,
+    user, 
+    userData 
+  } from '$lib/firebase-auth.js';
   // Importamos signInWithPopup y los proveedores directamente desde firebase/auth
   import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider } from 'firebase/auth';
   import { goto } from '$app/navigation';
-  import { user, userData } from '$lib/firebase-auth.js';
 
   // Crear instancias de los proveedores
   const googleProvider = new GoogleAuthProvider();
@@ -35,10 +40,8 @@
       const dbUser = await createOrUpdateUser(authUser);
       userData.set(dbUser);
       
-      // Agregamos logs para depuración
       console.log("Datos de usuario:", dbUser);
 
-      // Interpolación correcta usando template literals
       mensajeEstado = `Bienvenido, ${dbUser.displayName || authUser.email}!`;
       tipoMensaje = 'success';
 
@@ -48,16 +51,14 @@
         localStorage.removeItem('userEmail');
       }
 
-      // Verificar si el usuario es un barbero y redirigir adecuadamente
+      // Verificar si el usuario es un barbero (usando 'role' en lugar de 'rol')
       const esBarbero = 
-        dbUser.rol === 'barbero' || 
+        dbUser.role === 'barbero' || 
         ['edison@barbershop.com', 'brayan@barbershop.com', 'fernanda@barbershop.com']
           .includes(authUser.email);
       
-      // Agregamos log para verificar
       console.log("Es barbero:", esBarbero);
     
-      // Redirigir basado en el rol - ELIMINADO EL TIMEOUT
       if (esBarbero) {
         goto('/agenda-barbero');
       } else {
@@ -86,6 +87,8 @@
     tipoMensaje = '';
 
     try {
+      console.log('Intentando iniciar sesión con proveedor:', provider);
+      
       const cred = await signInWithPopup(auth, provider);
       const authUser = cred.user;
       user.set(authUser);
@@ -93,35 +96,53 @@
       const dbUser = await createOrUpdateUser(authUser);
       userData.set(dbUser);
       
-      // Agregamos logs para depuración
       console.log("Datos de usuario (provider):", dbUser);
 
       mensajeEstado = `Bienvenido, ${dbUser.displayName || authUser.email}!`;
       tipoMensaje = 'success';
 
-      // Verificar si el usuario es un barbero y redirigir adecuadamente
+      // Verificar si el usuario es un barbero (usando 'role' en lugar de 'rol')
       const esBarbero = 
-        dbUser.rol === 'barbero' || 
+        dbUser.role === 'barbero' || 
         ['edison@barbershop.com', 'brayan@barbershop.com', 'fernanda@barbershop.com']
           .includes(authUser.email);
       
-      // Agregamos log para verificar
       console.log("Es barbero (provider):", esBarbero);
-    
-      // Redirigir basado en el rol - ELIMINADO EL TIMEOUT
+
       if (esBarbero) {
         goto('/agenda-barbero');
       } else {
         goto('/');
       }
     } catch (err) {
-      console.error('Provider login error:', err);
-      if (err.code === 'auth/account-exists-with-different-credential') {
-        mensajeEstado = 'Ya existe una cuenta con este correo y otro método.';
-      } else if (err.code === 'auth/popup-closed-by-user') {
-        mensajeEstado = 'Operación cancelada por el usuario.';
-      } else {
-        mensajeEstado = 'Error al iniciar sesión con proveedor.';
+      console.error('Provider login error completo:', err);
+      console.error('Código de error:', err.code);
+      console.error('Mensaje de error:', err.message);
+      
+      switch (err.code) {
+        case 'auth/account-exists-with-different-credential':
+          mensajeEstado = 'Ya existe una cuenta con este correo usando otro método de inicio de sesión.';
+          break;
+        case 'auth/popup-closed-by-user':
+          mensajeEstado = 'Operación cancelada por el usuario.';
+          break;
+        case 'auth/popup-blocked':
+          mensajeEstado = 'Popup bloqueado. Permite popups para este sitio.';
+          break;
+        case 'auth/operation-not-allowed':
+          mensajeEstado = 'Este método de inicio de sesión no está habilitado.';
+          break;
+        case 'auth/invalid-api-key':
+          mensajeEstado = 'Error de configuración. Contacta al administrador.';
+          break;
+        case 'auth/network-request-failed':
+          mensajeEstado = 'Error de conexión. Verifica tu internet.';
+          break;
+        case 'auth/internal-error':
+          mensajeEstado = 'Error interno. Intenta nuevamente.';
+          break;
+        default:
+          mensajeEstado = `Error al iniciar sesión: ${err.message}`;
       }
       tipoMensaje = 'danger';
     } finally {
