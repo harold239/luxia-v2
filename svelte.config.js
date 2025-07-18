@@ -1,22 +1,22 @@
 import adapter from '@sveltejs/adapter-static';
 
-const dev = process.argv.includes('dev');
-
 const config = {
   kit: {
     adapter: adapter({
       pages: 'build',
       assets: 'build',
-      fallback: 'index.html' // Esto permite que todas las rutas funcionen como SPA
+      fallback: 'index.html' // Muy importante para que Netlify funcione como SPA
     }),
     paths: {
-      base: dev ? '' : '/barberia-independiente' // Solo usa base path en producción
+      base: '' // Elimina rutas adicionales, sirve desde raíz
     },
     prerender: {
-      entries: [] // Esto evita que Svelte intente pre-renderizar páginas dinámicas
+      entries: ['*'] // Renderiza todas las rutas disponibles
     }
   }
 };
 
 export default config;
+
+
 
